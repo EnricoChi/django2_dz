@@ -1,0 +1,9 @@
+__pycache__/
+.idea/
+/.idea/
+/media/
+rank_venv/
+*~
+*.pyc
+*.log
+/static/
