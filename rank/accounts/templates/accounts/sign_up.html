@@ -1,17 +1,44 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button>Submit</button>
-    </form>
-</body>
-</html>
+{% extends 'commons/wrapper.html' %}
+
+{% block content %}
+    <div class="signin-wrapper">
+        <div class="signin-box signup">
+            <h2 class="slim-logo"><a href="{% url 'landing:landing' %}">rank<span>.</span></a></h2>
+            <h3 class="signin-title-primary">Create account!</h3>
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row row-xs mg-b-10">
+                    <div class="col-sm">
+                        {{ form.first_name }}
+                    </div>
+                    <div class="col-sm mg-t-10 mg-sm-t-0">
+                        {{ form.email }}
+                    </div>
+                </div><!-- row -->
+
+                <div class="row row-xs mg-b-10">
+                    <div class="col-sm">
+                        {{ form.password }}
+                    </div>
+                    <div class="col-sm mg-t-10 mg-sm-t-0">
+                        {{ form.password2 }}
+                    </div>
+                </div><!-- row -->
+
+                <button class="btn btn-primary btn-block btn-signin">Sign Up</button>
+
+                <div class="signup-separator"><span>or signup using</span></div>
+
+                <button class="btn btn-facebook btn-block">Sign Up Using Facebook</button>
+                <button class="btn btn-twitter btn-block">Sign Up Using Twitter</button>
+            </form>
+            <p class="mg-t-40 mg-b-0">Already have an account? <a href="{% url 'accounts:sign-in' %}">Sign In</a></p>
+        </div><!-- signin-box -->
+
+    </div><!-- signin-wrapper -->
+{% endblock %}

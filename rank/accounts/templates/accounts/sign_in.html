@@ -1,0 +1,26 @@
+{% extends 'commons/wrapper.html' %}
+
+{% block content %}
+    <div class="signin-wrapper">
+        <form method="post">
+            {% csrf_token %}
+            <div class="signin-box">
+                <h2 class="slim-logo"><a href="{% url 'landing:landing' %}">rank<span>.</span></a></h2>
+                <h3 class="signin-title-secondary">Sign in to continue.</h3>
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.errors }}
+                    </div>
+                {% endif %}
+                <div class="form-group">
+                    {{ form.username }}
+                </div><!-- form-group -->
+                <div class="form-group mg-b-50">
+                    {{ form.password }}
+                </div><!-- form-group -->
+                <button class="btn btn-primary btn-block btn-signin">Sign In</button>
+                <p class="mg-b-0">Don't have an account? <a href="{% url 'accounts:sign-up' %}">Sign Up</a></p>
+            </div><!-- signin-box -->
+        </form>
+    </div><!-- signin-wrapper -->
+{% endblock %}
