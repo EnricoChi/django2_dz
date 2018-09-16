@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', include('landing.urls', namespace='landing')),
+    path('accounts/oauth2/google/', include('social_django.urls', namespace='social')),
     path('accounts/', include('accounts.urls', namespace='accounts'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

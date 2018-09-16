@@ -18,6 +18,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
 
+    # TODO: переделать на коробочный django
     activation_key = models.CharField(
         'Activation key', max_length=128, blank=True)
     activation_key_expires = models.DateTimeField(
@@ -34,6 +35,9 @@ class Account(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
 
     def __str__(self):
+        return self.email
+
+    def __unicode__(self):
         return self.email
 
     def email_user(self, subject, message, from_email=None, **kwargs):

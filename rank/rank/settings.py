@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
-
+import json
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -66,6 +66,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # 'social_django.context_processors.backends',
+                # 'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -123,11 +126,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-AUTH_USER_MODEL = 'accounts.Account'
-LOGIN_REDIRECT_URL = 'landing:landing'
-AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']
-
-
 DOMAIN_NAME = 'http://localhost:8000'
 
 EMAIL_HOST = 'localhost'
@@ -138,3 +136,36 @@ EMAIL_USE_SSL = False
 
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'tmp/email-log/'
+
+with open(os.path.join(BASE_DIR, 'rank/google_oauth2.json'), 'r') as file:
+    GOOGLE_OAUTH = json.load(file)
+
+AUTH_USER_MODEL = 'accounts.Account'
+LOGIN_URL = 'accounts:sign-in'
+LOGOUT_URL = 'accounts:sign-out'
+LOGIN_REDIRECT_URL = 'landing:landing'
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.AllowAllUsersModelBackend',
+    # 'django.contrib.auth.backends.ModelBackend'
+]
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = GOOGLE_OAUTH['web']['client_id']
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = GOOGLE_OAUTH['web']['client_secret']
+
+SOCIAL_AUTH_USER_FIELDS = ['email']
+SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_USER_MODEL = 'accounts.Account'
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.create_user',
+    'accounts.pipeline.user_activate',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)

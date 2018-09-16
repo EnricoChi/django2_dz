@@ -37,10 +37,11 @@ class SignUpForm(CommonAccountForm, forms.ModelForm):
         user.is_active = False
         user.set_password(self.cleaned_data.get("password2"))
 
+        # TODO: переделать на коробочный django
         salt = hashlib.sha1(str(random.random()).encode('utf8')).hexdigest()[:6]
         user.activation_key = hashlib.sha1((user.email + salt).encode('utf8')).hexdigest()
-        user.save()
 
+        user.save()
         send_verify_mail(user)
 
         return user
