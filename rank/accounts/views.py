@@ -1,8 +1,8 @@
+from django.conf import settings
 from django.contrib import auth
-from django.contrib.auth.mixins import AccessMixin
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import CreateView
 
@@ -10,8 +10,14 @@ from .models import Account
 from .forms import SignUpForm, SignInForm
 
 
-# TODO: редиректить уже залогиненого залогиненого пользователя
-class SignUp(AccessMixin, CreateView):
+class RedirectAuthUserMixin:
+    def dispatch(self, request, **kwargs):
+        if request.user.is_authenticated:
+            return redirect(settings.LOGIN_REDIRECT_URL)
+        return super().dispatch(request, **kwargs)
+
+
+class SignUp(RedirectAuthUserMixin, CreateView):
     template_name = 'accounts/sign_up.html'
     model = Account
     form_class = SignUpForm
