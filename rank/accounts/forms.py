@@ -1,11 +1,10 @@
 import random
 import hashlib
-import secrets
 
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 
-from .models import Account
+from .models import Account, AccountInfo
 from .utils import send_verify_mail
 
 
@@ -18,7 +17,6 @@ class CommonAccountForm(forms.Form):
 
 
 class SignUpForm(CommonAccountForm, UserCreationForm):
-
     class Meta:
         model = Account
         fields = ('email', 'first_name')
@@ -42,3 +40,15 @@ class SignInForm(CommonAccountForm, AuthenticationForm):
         'invalid_login': "Something went wrong!",
         'inactive': "This account is inactive.",
     }
+
+
+class AccountEditForm(CommonAccountForm, forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = ('first_name',)
+
+
+class AccountInfoEditForm(CommonAccountForm, forms.ModelForm):
+    class Meta:
+        model = AccountInfo
+        fields = ('gender', 'organization')

@@ -1,0 +1,40 @@
+{% extends 'commons/wrapper.html' %}
+
+{% block header %}
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'landing:landing' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Profile edit</li>
+    </ol>
+    <h1 class="slim-pagetitle">Profile edit</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="section-wrapper">
+        <div class="form-layout">
+            <form method="post">
+                <div class="row mg-b-25">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                {{ field }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% for field in form_info %}
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                {{ field }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="form-layout-footer">
+                    <button class="btn btn-primary bd-0 ml-auto d-block">Save profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

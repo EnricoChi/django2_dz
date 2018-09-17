@@ -4,6 +4,8 @@ from django.db import models
 from django.core.mail import send_mail
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils.timezone import now
 
 from .managers import AccountManager
@@ -42,3 +44,25 @@ class Account(AbstractBaseUser, PermissionsMixin):
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+
+class AccountInfo(models.Model):
+    GENDER = ((0, ''),
+              (1, 'Male'),
+              (2, 'Female'))
+
+    account = models.OneToOneField(
+        Account, null=False, db_index=True, on_delete=models.CASCADE)
+    gender = models.PositiveSmallIntegerField(
+        'Gender', choices=GENDER, default=0)
+    organization = models.CharField(
+        'Organization', max_length=255, blank=True)
+
+    @receiver(post_save, sender=Account)
+    def account_info_create(sender, instance, created, **kwargs):
+        if created:
+            AccountInfo.objects.create(account=instance)
+
+    @receiver(post_save, sender=Account)
+    def account_info_save(sender, instance, **kwargs):
+        instance.accountinfo.save()

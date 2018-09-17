@@ -3,11 +3,11 @@ from django.contrib import auth
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
-from django.views.generic import CreateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, UpdateView
 
-from .models import Account
-from .forms import SignUpForm, SignInForm
+from .models import Account, AccountInfo
+from .forms import SignUpForm, SignInForm, AccountEditForm, AccountInfoEditForm
 
 
 class RedirectAuthUserMixin:
@@ -30,6 +30,25 @@ class SignIn(LoginView):
     authentication_form = SignInForm
     template_name = "accounts/sign_in.html"
     redirect_authenticated_user = True
+
+
+class AccountEdit(UpdateView):
+    model = Account
+    form_class = AccountEditForm
+    template_name = 'accounts/edit.html'
+    success_url = reverse_lazy('landing:landing')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_info'] = AccountInfoEditForm(self.request.POST or None, instance=self.request.user.accountinfo)
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        form_info = context['form_info']
+        if form_info.is_valid():
+            form_info.save()
+        return super().form_valid(form)
 
 
 def success_page(request):
