@@ -1,9 +1,9 @@
 from django.urls import path
 
-from .views import landing
+from .views import LandView
 
 app_name = 'landing'
 
 urlpatterns = [
-    path('', landing, name='landing')
+    path('', LandView.as_view(), name='landing')
 ]

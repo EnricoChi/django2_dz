@@ -2,12 +2,43 @@
 
 {% block header %}
     <ol class="breadcrumb slim-breadcrumb">
-{#        <li class="breadcrumb-item"><a href="#">Home</a></li>#}
-{#        <li class="breadcrumb-item active" aria-current="page">Blank</li>#}
+        {#        <li class="breadcrumb-item"><a href="#">Home</a></li>#}
+        {#        <li class="breadcrumb-item active" aria-current="page">Blank</li>#}
     </ol>
     <h1 class="slim-pagetitle">Landing</h1>
 {% endblock %}
 
 {% block content %}
-    landing/index.html
+    <div class="row row-sm">
+        {% for object in object_list %}
+            <div class="col-sm-6 col-lg-3">
+                <div class="card-contact">
+                    <div class="tx-center">
+                        <a href="#"><img src="http://via.placeholder.com/500x500" class="card-img" alt=""></a>
+                        <h5 class="mg-t-10 mg-b-5"><a href="#" class="contact-name">{{ object.name }}</a></h5>
+                        <p>{{ object.category }}</p>
+                    </div><!-- tx-center -->
+
+                    <p class="contact-item">
+                        <span>Тип:</span>
+                        <span>{{ object.type }}</span>
+                    </p><!-- contact-item -->
+                    <p class="contact-item">
+                        <span>Регион:</span>
+                        <span>{{ object.get_region_display }}</span>
+                    </p><!-- contact-item -->
+                    <p class="contact-item">
+                        <span>Сайт</span>
+                        <span>{{ object.site }}</span>
+                    </p><!-- contact-item -->
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button class="btn btn-teal w-100">В корзину</button>
+                        </div>
+                    </div>
+                </div><!-- card -->
+            </div><!-- col -->
+        {% endfor %}
+    </div><!-- row -->
+
 {% endblock %}

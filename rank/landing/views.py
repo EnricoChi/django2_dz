@@ -1,5 +1,13 @@
-from django.shortcuts import render
+from django.views.generic import ListView
+
+from rank_item.models import Company
 
 
-def landing(request):
-    return render(request, 'landing/index.html')
+class LandView(ListView):
+    model = Company
+    f = model.objects.filter()
+    template_name = 'landing/index.html'
+
+    def get_queryset(self):
+        parent = super().get_queryset()
+        return parent.filter(is_published=True, category__is_published=True)

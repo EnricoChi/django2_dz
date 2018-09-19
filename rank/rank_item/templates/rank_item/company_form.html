@@ -1,0 +1,43 @@
+{% extends 'commons/wrapper.html' %}
+{% load staticfiles %}
+
+{% block header %}
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'r_admin:main' %}">Admin main</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Company Add</li>
+    </ol>
+    <h1 class="slim-pagetitle">Company add</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="section-wrapper">
+        <div class="form-layout">
+            <form method="post">
+                <div class="row mg-b-25">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="col-lg-4">
+                            <div class="form-group h-100">
+                                {% if field.label != 'Publish' %}
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                {% else %}
+                                    <div class="row align-items-center h-100">
+                                        <div class="col-12">
+                                            <label class="ckbox ckbox-success">
+                                                {{ field }}<span>{{ field.label }}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="form-layout-footer">
+                    <button class="btn btn-primary bd-0 ml-auto d-block">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

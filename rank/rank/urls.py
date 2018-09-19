@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    path('r-admin/', include('rank_admin.urls', namespace='r_admin')),
     path('', include('landing.urls', namespace='landing')),
     path('accounts/oauth2/google/', include('social_django.urls', namespace='social')),
     path('accounts/', include('accounts.urls', namespace='accounts'))

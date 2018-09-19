@@ -1,22 +1,14 @@
 import random
 import hashlib
-
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 
 from .models import Account, AccountInfo
 from .utils import send_verify_mail
+from commons.forms import BaseForm
 
 
-class CommonAccountForm(forms.Form):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'form-control'
-            field.widget.attrs['placeholder'] = field.label
-
-
-class SignUpForm(CommonAccountForm, UserCreationForm):
+class SignUpForm(BaseForm, UserCreationForm):
     class Meta:
         model = Account
         fields = ('email', 'first_name')
@@ -37,20 +29,20 @@ class SignUpForm(CommonAccountForm, UserCreationForm):
         return user
 
 
-class SignInForm(CommonAccountForm, AuthenticationForm):
+class SignInForm(BaseForm, AuthenticationForm):
     error_messages = {
         'invalid_login': "Something went wrong!",
         'inactive': "This account is inactive.",
     }
 
 
-class AccountEditForm(CommonAccountForm, forms.ModelForm):
+class AccountEditForm(BaseForm, forms.ModelForm):
     class Meta:
         model = Account
         fields = ('first_name',)
 
 
-class AccountInfoEditForm(CommonAccountForm, forms.ModelForm):
+class AccountInfoEditForm(BaseForm, forms.ModelForm):
     class Meta:
         model = AccountInfo
         fields = ('gender', 'organization')

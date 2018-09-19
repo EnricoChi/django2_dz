@@ -1,0 +1,55 @@
+{% extends 'commons/wrapper.html' %}
+
+{% block header %}
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'r_admin:main' %}">Admin main</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Company list</li>
+    </ol>
+    <h1 class="slim-pagetitle">Company list</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="section-wrapper mg-t-20">
+        <div class="row">
+            {% for object in object_list %}
+                <div class="col-lg-6 mb-4">
+                    <div class="list-group list-group-user">
+                        <div class="list-group-item">
+                            <img src="http://via.placeholder.com/500x500" alt="">
+                            <div class="user-name-address">
+                                <p>{{ object.name }}</p>
+                                <span class="
+                                            {% if object.category.is_published %}
+                                                text-success
+                                            {% else %}
+                                                text-danger
+                                            {% endif %}
+                                            ">
+                                    <i class="icon ion-bookmark mr-1"></i>
+                                    {{ object.category }}
+                                </span>
+                            </div>
+                            <div class="mx-auto">
+                                {% if object.is_published %}
+                                    <h2 class="d-inline"><i class="fa fa-eye text-success"></i></h2>
+                                {% else %}
+                                    <h2 class="d-inline"><i class="fa fa-eye-slash text-danger"></i></h2>
+                                {% endif %}
+                            </div>
+                            <div class="user-btn-wrapper">
+
+                                <a href="{% url 'r_admin:company-edit' object.pk %}"
+                                   class="btn btn-outline-primary btn-icon">
+                                    <div class="tx-20"><i class="icon ion-edit"></i></div>
+                                </a>
+                                <a href="{% url 'r_admin:company-del' %}" class="btn btn-outline-danger btn-icon">
+                                    <div class="tx-20"><i class="icon ion-trash-a"></i></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div><!-- row -->
+    </div><!-- section-wrapper -->
+{% endblock %}

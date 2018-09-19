@@ -11,23 +11,30 @@
 
     <title>My site</title>
 
+    {% block pagestyles %}
+    {% endblock %}
+
     {% include 'commons/styles.html' %}
+
 </head>
 <body>
-{% if not 'sign_up' in request.path and not 'sign_in' in request.path%}
+{% if not 'sign_up' in request.path and not 'sign_in' in request.path %}
     {% include 'commons/header.html' %}
 {% endif %}
-{#{% include 'commons/navbar.html' %}#}
+
+{% if user.is_superuser %}
+    {% include 'commons/navbar.html' %}
+{% endif %}
 
 <div class="slim-mainpanel">
     <div class="container">
 
-    {% if not 'sign_up' in request.path and not 'sign_in' in request.path%}
-        <div class="slim-pageheader">
-            {% block header %}
-            {% endblock %}
-        </div><!-- slim-pageheader -->
-    {% endif %}
+        {% if not 'sign_up' in request.path and not 'sign_in' in request.path %}
+            <div class="slim-pageheader">
+                {% block header %}
+                {% endblock %}
+            </div><!-- slim-pageheader -->
+        {% endif %}
 
         <div class="row">
             <div class="col-12">
@@ -39,10 +46,14 @@
     </div><!-- container -->
 </div><!-- slim-mainpanel -->
 
-{% if not 'sign_up' in request.path and not 'sign_in' in request.path%}
+{% if not 'sign_up' in request.path and not 'sign_in' in request.path %}
     {% include 'commons/footer.html' %}
 {% endif %}
 
 {% include 'commons/scripts.html' %}
+
+{% block pagescripts %}
+{% endblock %}
+
 </body>
 </html>

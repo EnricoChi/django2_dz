@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'accounts',
     'commons',
     'landing',
+    'rank_admin',
+    'rank_item',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'rank_admin.middleware.StaffUserMiddleware',
 ]
 
 ROOT_URLCONF = 'rank.urls'
