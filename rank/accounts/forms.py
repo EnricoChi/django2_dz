@@ -23,6 +23,8 @@ class SignUpForm(CommonAccountForm, UserCreationForm):
 
     def save(self, **kwargs):
         user = super().save()
+
+        # TODO: протестить, возможно это вообще не нужно. И убрать из pipeline
         user.is_active = False
 
         # TODO: переделать на коробочный django

@@ -32,6 +32,7 @@ class SignIn(LoginView):
     redirect_authenticated_user = True
 
 
+# TODO: транзакция
 class AccountEdit(UpdateView):
     model = Account
     form_class = AccountEditForm
