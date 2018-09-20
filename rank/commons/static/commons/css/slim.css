@@ -3812,7 +3812,7 @@ input[type="button"].btn-block {
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px; }
   .list-group-item:hover, .list-group-item:focus {
-    z-index: 1;
+    /*z-index: 1;*/
     text-decoration: none; }
   .list-group-item.disabled, .list-group-item:disabled {
     color: #6c757d;
