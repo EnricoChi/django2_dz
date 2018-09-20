@@ -24,7 +24,10 @@
                 </button>
             </div>
             <div class="modal-body pd-25">
-                You want to confirm deletion <b class="text-success">"#{{ object.id }}"</b>
+                You want to confirm deletion
+                <b class="text-success">"
+                    {% if object.name %} {{ object.name }} {% else %} #{{ object.id }} {% endif %}"
+                </b>
             </div>
             <div class="modal-footer">
                 <a href="{% url remove object.pk %}" class="btn btn-danger">Delete</a>

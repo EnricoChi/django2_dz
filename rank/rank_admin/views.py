@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, ListView
 
@@ -28,8 +28,10 @@ class CompanyEdit(UpdateView):
     success_url = reverse_lazy('r_admin:company-all')
 
 
-def company_del(request):
-    pass
+def company_del(request, pk=None):
+    company = get_object_or_404(Company, pk=pk)
+    company.delete()
+    return redirect('rank_admin:company-all')
 
 
 class CompanyCategoryAll(ListView):
@@ -50,5 +52,7 @@ class CompanyCategoryEdit(UpdateView):
     success_url = reverse_lazy('r_admin:category-all')
 
 
-def company_category_del(request):
-    pass
+def company_category_del(request, pk=None):
+    category = get_object_or_404(CompanyCategory, pk=pk)
+    category.delete()
+    return redirect('rank_admin:category-all')

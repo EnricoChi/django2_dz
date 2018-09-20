@@ -1,4 +1,5 @@
 {% extends 'commons/wrapper.html' %}
+{% load actions %}
 
 {% block header %}
     <ol class="breadcrumb slim-breadcrumb">
@@ -29,12 +30,7 @@
                                 {% endif %}
                             </div>
                             <div class="user-btn-wrapper">
-                                <a href="{% url 'r_admin:category-edit' object.pk %}" class="btn btn-outline-primary btn-icon">
-                                    <div class="tx-20"><i class="icon ion-edit"></i></div>
-                                </a>
-                                <a href="{% url 'r_admin:category-del' %}" class="btn btn-outline-danger btn-icon">
-                                    <div class="tx-20"><i class="icon ion-trash-a"></i></div>
-                                </a>
+                                {% actions object 'r_admin:category-edit' 'r_admin:category-del' %}
                             </div>
                         </div>
                     </div>
