@@ -7,7 +7,7 @@ from rank_item.models import Company, CompanyCategory
 class CompanyForm(BaseForm, forms.ModelForm):
     class Meta:
         model = Company
-        fields = ('name', 'site', 'region', 'type', 'category', 'is_published')
+        fields = ('name', 'site', 'region', 'type', 'category', 'price', 'quantity', 'is_published')
 
 
 class CompanyCategoryForm(BaseForm, forms.ModelForm):

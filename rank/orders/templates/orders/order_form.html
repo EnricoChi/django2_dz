@@ -1,0 +1,53 @@
+{% extends 'commons/wrapper.html' %}
+{% load staticfiles %}
+
+{% block header %}
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'r_admin:main' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ request.resolver_match.url_name }}</li>
+    </ol>
+    <h1 class="slim-pagetitle">{{ request.resolver_match.url_name }}</h1>
+{% endblock %}
+
+{% block content %}
+    {% include 'orders/includes/inc_order_summary.html' %}
+    <div class="section-wrapper">
+        <div class="form-layout">
+            <form method="post">
+                {% csrf_token %}
+                {{ orderitems.management_form }}
+                {% for form in orderitems.forms %}
+                    {% if forloop.first %}
+                        <div class="row form-group">
+                            {% for field in form.visible_fields %}
+                                <div class="col-4">
+                                    <h4 class="mb-0">{{ field.label|capfirst }}</h4>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="row form-group">
+                        {% for field in form.visible_fields %}
+                            {% if forloop.first %}
+                                {% for hidden in form.hidden_fields %}
+                                    {{ hidden }}
+                                {% endfor %}
+                            {% endif %}
+                            <div class="col-4">
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% if field.errors %}
+                        <div class="alert alert-danger">
+                            {{ field.errors.as_ul }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="form-layout-footer">
+                    <button class="btn btn-primary bd-0 d-block ml-auto">To order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

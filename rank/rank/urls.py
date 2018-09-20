@@ -24,5 +24,8 @@ urlpatterns = [
     path('r-admin/', include('rank_admin.urls', namespace='r_admin')),
     path('', include('landing.urls', namespace='landing')),
     path('accounts/oauth2/google/', include('social_django.urls', namespace='social')),
-    path('accounts/', include('accounts.urls', namespace='accounts'))
+    path('accounts/', include('accounts.urls', namespace='accounts')),
+
+    path('order/', include('orders.urls', namespace='orders')),
+    path('basket/', include('basket.urls', namespace='basket')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

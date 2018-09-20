@@ -1,4 +1,5 @@
 {% extends 'commons/wrapper.html' %}
+{% load staticfiles humanize %}
 
 {% block header %}
     <ol class="breadcrumb slim-breadcrumb">
@@ -9,36 +10,43 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row row-sm">
+    <form id="for-cart-items" method="post" class="row row-sm" action="{% url 'basket:add' %}">
+        {% csrf_token %}
         {% for object in object_list %}
-            <div class="col-sm-6 col-lg-3">
+            <div class="col-sm-6 col-lg-3 mt-3">
                 <div class="card-contact">
                     <div class="tx-center">
-                        <a href="#"><img src="http://via.placeholder.com/500x500" class="card-img" alt=""></a>
-                        <h5 class="mg-t-10 mg-b-5"><a href="#" class="contact-name">{{ object.name }}</a></h5>
+                        <img src="http://via.placeholder.com/500x500" class="card-img" alt="">
+                        <h5 class="mg-t-10 mg-b-5">{{ object.name }}</h5>
                         <p>{{ object.category }}</p>
                     </div><!-- tx-center -->
-
-                    <p class="contact-item">
-                        <span>Тип:</span>
-                        <span>{{ object.type }}</span>
-                    </p><!-- contact-item -->
                     <p class="contact-item">
                         <span>Регион:</span>
                         <span>{{ object.get_region_display }}</span>
                     </p><!-- contact-item -->
                     <p class="contact-item">
-                        <span>Сайт</span>
-                        <span>{{ object.site }}</span>
+                        <span>Цена</span>
+                        <span>{{ object.price|intcomma }} $</span>
                     </p><!-- contact-item -->
-                    <div class="row mt-3">
-                        <div class="col-12">
-                            <button class="btn btn-teal w-100">В корзину</button>
+                    <p class="contact-item">
+                        <span>Количество:</span>
+                        <span>{{ object.quantity }}</span>
+                    </p><!-- contact-item -->
+                    {% if user.is_authenticated %}
+                        <div class="row mt-3">
+                            <button data-company-id="{{ object.pk }}"
+                                    class="col-12 for-cart-items-button btn btn-teal">Add to cart
+                            </button>
+                            <a href="{% url 'orders:order-add' %}" id="for-company-{{ object.pk }}" style="color: #fff;"
+                                    class="col-4 d-none btn btn-info">{{ object.ordering }}</a>
                         </div>
-                    </div>
-                </div><!-- card -->
+                    {% endif %}
+                </div><!-- cart -->
             </div><!-- col -->
         {% endfor %}
-    </div><!-- row -->
+    </form><!-- row -->
+{% endblock %}
 
+{% block pagescripts %}
+    <script src="{% static 'commons/js/settings.js' %}"></script>
 {% endblock %}

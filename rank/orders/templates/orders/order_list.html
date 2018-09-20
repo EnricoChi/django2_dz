@@ -1,0 +1,43 @@
+{% extends 'commons/wrapper.html' %}
+{% load actions %}
+
+{% block header %}
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'landing:landing' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Orders list</li>
+    </ol>
+    <h1 class="slim-pagetitle">Orders list</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="section-wrapper mg-t-20">
+        <div class="row">
+            {% if object_list %}
+                {% for object in object_list %}
+                    <div class="col-lg-6 mb-4">
+                        <div class="list-group list-group-user">
+                            <div class="list-group-item">
+                                Order #{{ object.pk }}
+                                <div class="user-name-address">
+                                    <p>{{ object.name }}</p>
+                                    <span>
+                                    Status: {{ object.get_status_display }}<br>
+                                    Created: {{ object.created_date|date:"d F, Y H:i" }}<br>
+                                    Updated: {{ object.update_date|date:"d F, Y H:i" }}
+                                    </span>
+                                </div>
+                                <div class="user-btn-wrapper">
+                                    {% actions object 'orders:order-edit' 'orders:order-del' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div>
+                    You do not have any orders, please <a href="{% url 'orders:order-add' %}"> check the cart</a>
+                </div>
+            {% endif %}
+        </div><!-- row -->
+    </div><!-- section-wrapper -->
+{% endblock %}

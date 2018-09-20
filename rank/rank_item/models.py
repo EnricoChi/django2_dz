@@ -5,7 +5,7 @@ from commons.models import BaseRankModel
 
 class Company(BaseRankModel):
     class Meta:
-        ordering = ('name', )
+        ordering = ('name',)
 
     REGION = ((0, ''),
               (1, 'Санкт-Петербург'),
@@ -21,6 +21,11 @@ class Company(BaseRankModel):
         'Type', max_length=255)
     site = models.CharField(
         'Site', max_length=128)
+
+    price = models.DecimalField(
+        'Price', max_digits=8, decimal_places=2, default=0)
+    quantity = models.PositiveIntegerField(
+        'Quantity', default=0)
 
     def __str__(self):
         return f'{self.name} - {self.category.name}'

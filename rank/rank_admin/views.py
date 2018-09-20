@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, ListView
 
 from rank_item.models import Company, CompanyCategory
@@ -17,7 +17,9 @@ class CompanyAll(ListView):
 class CompanyAdd(CreateView):
     model = Company
     form_class = CompanyForm
-    success_url = reverse_lazy('r_admin:company-edit')
+
+    def get_success_url(self):
+        return reverse('r_admin:company-edit', kwargs={'pk': self.object.pk})
 
 
 class CompanyEdit(UpdateView):
@@ -37,7 +39,9 @@ class CompanyCategoryAll(ListView):
 class CompanyCategoryAdd(CreateView):
     model = CompanyCategory
     form_class = CompanyCategoryForm
-    success_url = reverse_lazy('r_admin:category-edit')
+
+    def get_success_url(self):
+        return reverse('r_admin:category-edit', kwargs={'pk': self.object.pk})
 
 
 class CompanyCategoryEdit(UpdateView):

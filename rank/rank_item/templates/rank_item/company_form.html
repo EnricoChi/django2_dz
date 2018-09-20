@@ -4,9 +4,9 @@
 {% block header %}
     <ol class="breadcrumb slim-breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'r_admin:main' %}">Admin main</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Company Add</li>
+        <li class="breadcrumb-item active" aria-current="page">{{ request.resolver_match.url_name }}</li>
     </ol>
-    <h1 class="slim-pagetitle">Company add</h1>
+    <h1 class="slim-pagetitle">{{ request.resolver_match.url_name }}</h1>
 {% endblock %}
 
 {% block content %}
@@ -21,6 +21,9 @@
                                 {% if field.label != 'Publish' %}
                                     {{ field.label_tag }}
                                     {{ field }}
+                                    {% if field.errors %}
+                                        <small class="text-danger">{{ field.errors }}</small>
+                                    {% endif %}
                                 {% else %}
                                     <div class="row align-items-center h-100">
                                         <div class="col-12">
