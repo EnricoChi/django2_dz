@@ -11,6 +11,9 @@ class OrderForm(BaseForm, forms.ModelForm):
 
 
 class OrderItemForm(BaseForm, forms.ModelForm):
+    price = forms.CharField(
+        label='Price', required=False)
+
     class Meta:
         model = OrderItem
         fields = '__all__'

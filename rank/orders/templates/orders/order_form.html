@@ -1,5 +1,5 @@
 {% extends 'commons/wrapper.html' %}
-{% load staticfiles %}
+{% load staticfiles humanize %}
 
 {% block header %}
     <ol class="breadcrumb slim-breadcrumb">
@@ -18,23 +18,32 @@
                 {{ orderitems.management_form }}
                 {% for form in orderitems.forms %}
                     {% if forloop.first %}
-                        <div class="row form-group">
+                        <div class="row form-group align-items-center">
                             {% for field in form.visible_fields %}
-                                <div class="col-4">
+                                <div class="col-3">
                                     <h4 class="mb-0">{{ field.label|capfirst }}</h4>
                                 </div>
                             {% endfor %}
                         </div>
                     {% endif %}
-                    <div class="row form-group">
+                    <div class="row form-group align-items-center">
                         {% for field in form.visible_fields %}
                             {% if forloop.first %}
                                 {% for hidden in form.hidden_fields %}
                                     {{ hidden }}
                                 {% endfor %}
                             {% endif %}
-                            <div class="col-4">
-                                {{ field }}
+                            <div class="col-3">
+                                {% if field.name != 'price' %}
+                                    {{ field }}
+                                {% else %}
+                                    {% if field.value %}
+                                        <span class="orderitems-{{ forloop.parentloop.counter0 }}-price">
+                                             {{ field.value|intcomma }}
+                                           </span> $
+                                    {% endif %}
+                                {% endif %}
+
                             </div>
                         {% endfor %}
                     </div>
@@ -50,4 +59,8 @@
             </form>
         </div>
     </div>
+{% endblock %}
+
+{% block pagescripts %}
+    <script src="{% static 'orders/js/orders_scripts.js' %}"></script>
 {% endblock %}

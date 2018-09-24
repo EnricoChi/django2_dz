@@ -4,9 +4,9 @@
         <h2>Order #{{ object.pk }} for {{ user.email }}</h2>
         <small>{{ object.created_date|date:"d F, Y H:i" }} <br>
             Status: {{ object.get_status_display }}<br>
-            Quantity: <span class="order_total_quantity">{{ object.get_total_quantity }}</span><br>
-            Price: <span class="order_total_cost">{{ object.get_total_cost|intcomma }}</span>$
         </small>
+        <b>Quantity: <span class="order_total_quantity">{{ object.get_total_quantity }}</span></b><br>
+        <b>Price: <span class="order_total_cost">{{ object.get_total_cost|intcomma }}</span>$</b>
     </div>
     <hr>
 {% else %}

@@ -35,13 +35,11 @@ class Order(BaseRankModel):
         items = self.order_items.select_related()
         return sum(list(map(lambda x: x.quantity * x.company.price, items)))
 
-    # def delete(self, *args, **kwargs):
-    #     for item in self.order_items.select_related():
-    #         item.company.quantity += item.quantity
-    #         item.company.save()
-    #
-    #     self.is_published = False
-    #     self.save()
+    def delete(self, *args, **kwargs):
+        for item in self.order_items.select_related():
+            item.company.quantity += item.quantity
+            item.company.save()
+        super().delete()
 
 
 class OrderItem(models.Model):
@@ -54,3 +52,20 @@ class OrderItem(models.Model):
 
     def get_product_cost(self):
         return self.company.price * self.quantity
+
+    def delete(self, *args, **kwargs):
+        self.company.quantity += self.quantity
+        self.company.save()
+        super().delete()
+
+    def save(self, *args, **kwargs):
+        if self.pk:
+            self.company.quantity -= self.quantity - self.__class__.get_item(self.pk).quantity
+        else:
+            self.company.quantity -= self.quantity
+        self.company.save()
+        super().save(*args, **kwargs)
+
+    @staticmethod
+    def get_item(pk):
+        return OrderItem.objects.filter(pk=pk).first()
