@@ -1,13 +1,13 @@
 {
   "web": {
-    "client_id": "571115956093-cs81j9lppod7hlqif4gb5u7mvbeebv3g.apps.googleusercontent.com",
+    "client_id": "571115956093-1f5g28dmdnifu4di17odlgn13viduv3l.apps.googleusercontent.com",
     "project_id": "django2-216618",
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
     "token_uri": "https://www.googleapis.com/oauth2/v3/token",
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_secret": "edgpthomwvw_f4h5mYWanrVc",
+    "client_secret": "hiG9-Gmh0GuwraqXb23vFhYd",
     "redirect_uris": [
-      "http://127.0.0.1:8000/accounts/oauth2/google/complete/google-oauth2/"
+      "http://enricoseo2.fvds.ru/accounts/oauth2/google/complete/google-oauth2/"
     ]
   }
 }
