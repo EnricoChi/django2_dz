@@ -10,4 +10,4 @@ class LandView(ListView):
 
     def get_queryset(self):
         parent = super().get_queryset()
-        return parent.filter(is_published=True, category__is_published=True)
+        return parent.filter(is_published=True, category__is_published=True).select_related('category')
