@@ -3,7 +3,7 @@
 {% block content %}
     <div class="signin-wrapper">
         <form method="post">
-{#            {% csrf_token %}#}
+            {% csrf_token %}
             <div class="signin-box">
                 <h2 class="slim-logo"><a href="{% url 'landing:landing' %}">rank<span>.</span></a></h2>
                 <h3 class="signin-title-secondary">Sign in to continue.</h3>
