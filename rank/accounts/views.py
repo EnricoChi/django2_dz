@@ -4,10 +4,12 @@ from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, UpdateView
 
 from .models import Account, AccountInfo
 from .forms import SignUpForm, SignInForm, AccountEditForm, AccountInfoEditForm
+from django.views.decorators.csrf import csrf_exempt
 
 
 class RedirectAuthUserMixin:
@@ -26,6 +28,7 @@ class SignUp(RedirectAuthUserMixin, CreateView):
         return reverse('accounts:success')
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class SignIn(LoginView):
     authentication_form = SignInForm
     template_name = "accounts/sign_in.html"
