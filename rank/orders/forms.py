@@ -21,4 +21,4 @@ class OrderItemForm(BaseForm, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['company'].queryset = Company.get_items().select_related()
+        self.fields['company'].queryset = Company.get_items().select_related('category')
