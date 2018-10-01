@@ -10,6 +10,9 @@ from basket.models import Basket
 from .models import Order, OrderItem
 from .forms import OrderItemForm
 
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+
 
 class OrderList(ListView):
     model = Order
@@ -17,6 +20,10 @@ class OrderList(ListView):
     def get_queryset(self):
         parent = super().get_queryset()
         return parent.filter(user=self.request.user)
+
+    @method_decorator(login_required())
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
 
 class OrderItemAdd(CreateView):
@@ -66,6 +73,10 @@ class OrderItemAdd(CreateView):
             self.object.delete()
         return super().form_valid(form)
 
+    @method_decorator(login_required())
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
 
 class OrderItemEdit(UpdateView):
     model = Order
@@ -103,6 +114,10 @@ class OrderItemEdit(UpdateView):
             self.object.delete()
 
         return super().form_valid(form)
+
+    @method_decorator(login_required())
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
 
 def order_del(request, pk=None):
