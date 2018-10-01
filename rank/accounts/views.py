@@ -28,11 +28,17 @@ class SignUp(RedirectAuthUserMixin, CreateView):
         return reverse('accounts:success')
 
 
-@method_decorator(csrf_exempt, name='dispatch')
 class SignIn(LoginView):
     authentication_form = SignInForm
     template_name = "accounts/sign_in.html"
     redirect_authenticated_user = True
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        if self.redirect_authenticated_user and self.request.user.is_authenticated:
+            redirect_to = self.get_success_url()
+            return HttpResponseRedirect(redirect_to)
+        return super(LoginView, self).dispatch(request, *args, **kwargs)
 
 
 # TODO: транзакция
