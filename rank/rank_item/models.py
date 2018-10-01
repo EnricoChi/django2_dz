@@ -30,6 +30,10 @@ class Company(BaseRankModel):
     def __str__(self):
         return f'{self.name} - {self.category.name}'
 
+    @staticmethod
+    def get_items():
+        return Company.objects.filter(is_published=True).order_by('category', 'name')
+
 
 class CompanyCategory(BaseRankModel):
     name = models.CharField(

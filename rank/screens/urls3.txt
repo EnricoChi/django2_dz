@@ -1,0 +1,5 @@
+http://enricoseo2.fvds.ru/accounts/sign_in/ POST username=gb@gb.ru&password=geekshop
+http://enricoseo2.fvds.ru/
+http://enricoseo2.fvds.ru/order/
+http://enricoseo2.fvds.ru/order/add/
+http://enricoseo2.fvds.ru/order/edit/11
