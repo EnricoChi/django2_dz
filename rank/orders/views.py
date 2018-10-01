@@ -106,7 +106,7 @@ class OrderItemEdit(UpdateView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        qs = qs.select_related('category')
+        qs = qs.select_related()
         return qs
 
 
