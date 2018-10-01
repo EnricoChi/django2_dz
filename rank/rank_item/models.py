@@ -32,7 +32,7 @@ class Company(BaseRankModel):
 
     @staticmethod
     def get_items():
-        return Company.objects.filter(is_published=True).order_by('category', 'name')
+        return Company.objects.filter(is_published=True)
 
 
 class CompanyCategory(BaseRankModel):
