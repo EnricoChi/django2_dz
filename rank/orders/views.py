@@ -104,6 +104,10 @@ class OrderItemEdit(UpdateView):
 
         return super().form_valid(form)
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.se
+
 
 def order_del(request, pk=None):
     order = get_object_or_404(Order, pk=pk)
