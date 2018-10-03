@@ -43,6 +43,7 @@ class OrderItemAdd(CreateView):
             formset = OrderFormSet(self.request.POST)
             basket.delete()
         else:
+            context['basket'] = basket
             if len(basket):
                 OrderFormSet = inlineformset_factory(
                     Order, OrderItem, form=OrderItemForm, extra=len(basket))

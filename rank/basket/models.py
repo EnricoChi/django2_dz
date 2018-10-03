@@ -3,6 +3,8 @@ from django.conf import settings
 from rank_item.models import Company
 from commons.models import BaseRankModel
 
+from django.utils.functional import cached_property
+
 
 class Basket(BaseRankModel):
     user = models.ForeignKey(
@@ -17,19 +19,31 @@ class Basket(BaseRankModel):
 
     product_cost = property(_get_product_cost)
 
-    def _get_total_quantity(self):
-        _items = Basket.objects.filter(user=self.user)
-        _totalquantity = sum(list(map(lambda x: x.quantity, _items)))
-        return _totalquantity
+    @cached_property
+    def get_item_cached(self):
+        return self.user.basket_set.select_related('company')
 
-    total_quantity = property(_get_total_quantity)
+    def total_quantity(self):
+        _items = self.get_item_cached
+        return sum(list(map(lambda x: x.quantity, _items)))
 
-    def _get_total_cost(self):
-        _items = Basket.objects.filter(user=self.user)
-        _totalcost = sum(list(map(lambda x: x.product_cost, _items)))
-        return _totalcost
+    def total_cost(self):
+        _items = self.get_item_cached
+        return sum(list(map(lambda x: x.product_cost, _items)))
 
-    total_cost = property(_get_total_cost)
+    # def _get_total_quantity(self):
+    #     _items = Basket.objects.filter(user=self.user)
+    #     _totalquantity = sum(list(map(lambda x: x.quantity, _items)))
+    #     return _totalquantity
+    #
+    # total_quantity = property(_get_total_quantity)
+    #
+    # def _get_total_cost(self):
+    #     _items = Basket.objects.filter(user=self.user)
+    #     _totalcost = sum(list(map(lambda x: x.product_cost, _items)))
+    #     return _totalcost
+    #
+    # total_cost = property(_get_total_cost)
 
     @staticmethod
     def get_items(user):

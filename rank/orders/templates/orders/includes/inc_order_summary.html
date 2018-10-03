@@ -5,18 +5,20 @@
         <small>{{ object.created_date|date:"d F, Y H:i" }} <br>
             Status: {{ object.get_status_display }}<br>
         </small>
-        <b>Quantity: <span class="order_total_quantity">{{ object.get_total_quantity }}</span></b><br>
-        <b>Price: <span class="order_total_cost">{{ object.get_total_cost|intcomma }}</span>$</b>
+        {% with object_summary=object.get_summary %}
+            <b>Quantity: <span class="order_total_quantity">{{ object_summary.total_quantity }}</span></b><br>
+            <b>Price: <span class="order_total_cost">{{ object_summary.total_cost|intcomma }}</span>$</b>
+        {% endwith %}
     </div>
     <hr>
 {% else %}
     <div class="h2">cart of {{ user.email }}</div>
     {% if basket.0 %}
         <div class="h4">
-            общее количество товаров: <span class="order_total_quantity">{{ basket.0.get_total_quantity }}</span>
+            общее количество товаров: <span class="order_total_quantity">{{ basket.0.total_quantity }}</span>
         </div>
         <div class="h3">
-            общая стоимость: <span class="order_total_cost">{{ basket.0.get_total_cost }}</span> руб
+            общая стоимость: <span class="order_total_cost">{{ basket.0.total_cost }}</span> руб
         </div>
     {% endif %}
 {% endif %}

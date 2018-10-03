@@ -41,6 +41,13 @@ class Order(BaseRankModel):
             item.company.save()
         super().delete()
 
+    def get_summary(self):
+        items = self.order_items.select_related('company')
+        return {
+            'total_cost': sum(list(map(lambda x: x.quantity * x.company.price, items))),
+            'total_quantity': sum(list(map(lambda x: x.quantity, items)))
+        }
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(
