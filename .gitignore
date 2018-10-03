@@ -3,7 +3,10 @@ __pycache__/
 /.idea/
 /media/
 venv/
+venv_linux/
 *~
 *.pyc
 *.log
 /static/
++db.sqlite3
+google_oauth2.json

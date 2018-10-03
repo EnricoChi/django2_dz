@@ -28,13 +28,13 @@
 
 <div class="slim-mainpanel">
     <div class="container">
-
         {% if not 'sign_up' in request.path and not 'sign_in' in request.path %}
             <div class="slim-pageheader">
                 {% block header %}
                 {% endblock %}
             </div><!-- slim-pageheader -->
         {% endif %}
+
 
         <div class="row">
             <div class="col-12">
