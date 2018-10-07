@@ -23,8 +23,8 @@ class TestUserManagement(TestCase):
                                                                first_name='Фирст Нейм')
 
     def test_user_login(self):
-        response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
+        # response = self.client.get('/')
+        # self.assertEqual(response.status_code, 200)
 
         # response = self.client.get('/accounts/sign_in/')
         # self.assertTrue(response.context['user'].is_anonymous)
@@ -35,7 +35,8 @@ class TestUserManagement(TestCase):
         self.client.login(username='gb2@gb.ru', password='geekshop')
 
         # логинимся
-        response = self.client.get(reverse('accounts:sign-in'))
+        # response = self.client.get(reverse('accounts:sign-in'))
+        response = self.client.get('/')
         print(response.context)
         print(dir(response))
         # self.assertFalse(response.context['user'].is_anonymous)
