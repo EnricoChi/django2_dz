@@ -36,7 +36,7 @@ class TestUserManagement(TestCase):
 
         # логинимся
         response = self.client.get(reverse('accounts:sign-in'))
-        print(response)
+        print(response.context)
         print(dir(response))
         # self.assertFalse(response.context['user'].is_anonymous)
         self.assertEqual(response.context['user'], self.superuser)
