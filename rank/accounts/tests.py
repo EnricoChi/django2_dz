@@ -2,9 +2,8 @@ from django.test import TestCase
 from django.test import Client
 from django.core.management import call_command
 from django.urls import reverse
-from django.test.utils import setup_test_environment, teardown_test_environment
 
-from .models import Account
+from accounts.models import Account
 
 
 class TestUserManagement(TestCase):
@@ -17,7 +16,7 @@ class TestUserManagement(TestCase):
         model = Account
 
         # self.superuser = model.objects.create_superuser('gb@gb.ru', 'geekshop')
-        # self.user = model.objects.create_user('test@test.ru', 'test')
+        self.user = model.objects.create_user('test@test.ru', 'test')
         # self.user_with__first_name = model.objects.create_user('test_name@test.ru',
         #                                                        'test_name',
         #                                                        first_name='Фирст Нейм')
@@ -32,7 +31,7 @@ class TestUserManagement(TestCase):
         # self.assertNotIn('Пользователь', response.content.decode())
 
         # данные пользователя
-        self.client.login(username='gb@gb.ru', password='geekshop')
+        self.client.login(username='test@test.ru', password='test')
 
         # логинимся
         response = self.client.get(reverse('accounts:sign-in'))
