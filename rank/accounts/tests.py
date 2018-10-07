@@ -32,11 +32,10 @@ class TestUserManagement(TestCase):
         # self.assertNotIn('Пользователь', response.content.decode())
 
         # данные пользователя
-        self.client.login(username='gb2@gb.ru', password='geekshop')
+        # self.client.login(username='gb2@gb.ru', password='geekshop')
 
         # логинимся
-        # response = self.client.get(reverse('accounts:sign-in'))
-        response = self.client.get('/')
+        response = self.client.get(reverse('accounts:sign-in'))
         print('1'*200)
         print(response.context['user'])
         # self.assertFalse(response.context['user'].is_anonymous)
