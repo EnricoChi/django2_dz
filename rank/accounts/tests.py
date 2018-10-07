@@ -32,7 +32,7 @@ class TestUserManagement(TestCase):
         # self.assertNotIn('Пользователь', response.content.decode())
 
         # данные пользователя
-        self.client.login(username='gb@gb.ru', password='geekshop')
+        self.client.login(email='gb@gb.ru', password='geekshop')
 
         # логинимся
         response = self.client.get(reverse('accounts:sign-in'))
