@@ -10,20 +10,14 @@ from .models import Account
 class TestUserManagement(TestCase):
 
     def setUp(self):
-        teardown_test_environment()
-        setup_test_environment()
         call_command('flush', '--noinput')
         call_command('loaddata', 'test_db.json')
         self.client = Client()
 
         model = Account
 
-        self.superuser = model.objects.create_superuser('gb2@gb.ru',
-                                                        'geekshop')
-
-        self.user = model.objects.create_user('test@test.ru',
-                                              'test')
-
+        self.superuser = model.objects.create_superuser('gb2@gb.ru', 'geekshop')
+        self.user = model.objects.create_user('test@test.ru', 'test')
         self.user_with__first_name = model.objects.create_user('test_name@test.ru',
                                                                'test_name',
                                                                first_name='Фирст Нейм')
@@ -38,7 +32,7 @@ class TestUserManagement(TestCase):
         # self.assertNotIn('Пользователь', response.content.decode())
 
         # данные пользователя
-        self.client.login(email='gb2@gb.ru', password='geekshop')
+        self.client.login(username='gb2@gb.ru', password='geekshop')
 
         # логинимся
         response = self.client.get(reverse('accounts:sign-in'))
