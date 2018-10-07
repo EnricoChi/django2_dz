@@ -29,7 +29,7 @@ class TestUserManagement(TestCase):
         # self.assertNotIn('Пользователь', response.content.decode())
 
         # данные пользователя
-        login = self.client.login(username='test@test.ru', password='test')
+        login = self.client.login(username='test1@test.ru', password='test')
         print(login)
 
         # логинимся
