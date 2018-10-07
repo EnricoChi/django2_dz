@@ -10,7 +10,7 @@ class TestUserManagement(TestCase):
 
     def setUp(self):
         call_command('flush', '--noinput')
-        call_command('loaddata', 'rank/test_db.json')
+        call_command('loaddata', 'test_db.json')
         self.client = Client()
 
         # self.superuser = model.objects.create_superuser('gb@gb.ru', 'geekshop')
