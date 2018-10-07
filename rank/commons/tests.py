@@ -16,7 +16,7 @@ class TestRankItem(TestCase):
 
         response = self.client.get('/accounts/sign_in/')
         print('2'*200)
-        print(response.context)
+        print(response.context['user'])
         self.assertEqual(response.status_code, 200)
 
         response = self.client.get('/order/add/')
