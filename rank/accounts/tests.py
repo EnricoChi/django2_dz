@@ -31,6 +31,9 @@ class TestUserManagement(TestCase):
         # данные пользователя
         login = self.client.login(username='test@test.ru', password='test')
         print(login)
+        response = self.client.get('/')
+        print('.' * 200)
+        print(response.context['user'])
 
         # логинимся
         response = self.client.get(reverse('accounts:sign-in'))
