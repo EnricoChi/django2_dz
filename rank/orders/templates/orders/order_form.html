@@ -1,5 +1,5 @@
 {% extends 'commons/wrapper.html' %}
-{% load staticfiles humanize %}
+{% load staticfiles humanize cache %}
 
 {% block header %}
     <ol class="breadcrumb slim-breadcrumb">
@@ -35,7 +35,13 @@
                             {% endif %}
                             <div class="col-3">
                                 {% if field.name != 'price' %}
-                                    {{ field }}
+                                    {% if field.name == 'company' %}
+                                        {% cache 3600 orderitemform_company field.value %}
+                                            {{ field }}
+                                        {% endcache %}
+                                    {% else %}
+                                        {{ field }}
+                                    {% endif %}
                                 {% else %}
                                     {% if field.value %}
                                         <span class="orderitems-{{ forloop.parentloop.counter0 }}-price">

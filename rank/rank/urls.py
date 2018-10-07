@@ -28,6 +28,8 @@ urlpatterns = [
 
     path('order/', include('orders.urls', namespace='orders')),
     path('basket/', include('basket.urls', namespace='basket')),
+
+    path('company/', include('rank_item.urls', namespace='company')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

@@ -1,0 +1,93 @@
+{% extends 'commons/wrapper.html' %}
+{% load staticfiles humanize %}
+
+{% block header %}
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'landing:landing' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Company page #{{ object.name }}</li>
+    </ol>
+    <h1 class="slim-pagetitle">Company page #{{ object.name }}</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="row row-sm">
+        <div class="col-lg-8">
+            <div class="card card-profile">
+                <div class="card-body">
+                    <div class="media">
+                        <img class="img-fluid rounded" src="{% static 'commons/images/' %}{{ object.pk }}.jpg" alt="">
+                        <div class="media-body">
+                            <h3 class="card-profile-name">Name: {{ object.name }}</h3>
+                            <p class="card-profile-position">Category: {{ object.category }}</p>
+                            <p>Region: {{ object.get_region_display }}</p>
+
+                            <p class="mg-b-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos ex
+                                minus mollitia placeat, sint suscipit.</p>
+                        </div><!-- media-body -->
+                    </div><!-- media -->
+                </div><!-- card-body -->
+            </div><!-- card -->
+            <h2 class="mt-5">Products of the same category:</h2>
+            <form id="for-cart-items" method="post" class="row row-sm" action="{% url 'basket:add' %}">
+                {% csrf_token %}
+                {% for object in category_items %}
+                    <div class="col-sm-6 col-lg-4 mt-3">
+                        <div class="card-contact">
+                            <div class="tx-center">
+                                <a href="{% url 'company:view' object.pk %}">
+                                    <img class="img-fluid rounded" style="height: 100px" src="{% static 'commons/images/' %}{{ object.pk }}.jpg" alt="">
+                                    <h5 class="mg-t-10 mg-b-5">{{ object.name }}</h5>
+                                    <p>{{ object.category }}</p>
+                                </a>
+                            </div><!-- tx-center -->
+                            <p class="contact-item">
+                                <span>Регион:</span>
+                                <span>{{ object.get_region_display }}</span>
+                            </p><!-- contact-item -->
+                            <p class="contact-item">
+                                <span>Цена</span>
+                                <span>{{ object.price|intcomma }} $</span>
+                            </p><!-- contact-item -->
+                            <p class="contact-item">
+                                <span>Количество:</span>
+                                <span>{{ object.quantity }}</span>
+                            </p><!-- contact-item -->
+                            {% if user.is_authenticated %}
+                                <div class="row mt-3">
+                                    <button data-company-id="{{ object.pk }}"
+                                            class="col-12 for-cart-items-button btn btn-teal">Add to cart
+                                    </button>
+                                    <a href="{% url 'orders:order-add' %}" id="for-company-{{ object.pk }}"
+                                       style="color: #fff;"
+                                       class="col-4 d-none btn btn-info">{{ object.ordering }}</a>
+                                </div>
+                            {% endif %}
+                        </div><!-- cart -->
+                    </div><!-- col -->
+                {% endfor %}
+            </form>
+
+        </div><!-- col-8 -->
+        <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+            <div class="card card-connection">
+                <div class="row row-xs">
+                    <div class="col-4 tx-primary">${{ object.price }}</div>
+                    <div class="col-8">
+                        per one item
+                    </div>
+                </div><!-- row -->
+                <hr>
+                <div class="row row-xs">
+                    <div class="col-4 tx-purple">{{ object.quantity }}</div>
+                    <div class="col-8">
+                        items in stock
+                    </div>
+                </div><!-- row -->
+            </div><!-- card -->
+        </div><!-- col-4 -->
+    </div><!-- row -->
+{% endblock %}
+
+{% block pagescripts %}
+    <script src="{% static 'commons/js/settings.js' %}"></script>
+{% endblock %}

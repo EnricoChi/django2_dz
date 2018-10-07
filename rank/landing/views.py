@@ -1,6 +1,7 @@
 from django.views.generic import ListView
 
 from rank_item.models import Company
+from django.views.decorators.cache import cache_page
 
 
 class LandView(ListView):
