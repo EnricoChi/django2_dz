@@ -16,11 +16,11 @@ class TestUserManagement(TestCase):
 
         model = Account
 
-        self.superuser = model.objects.create_superuser('gb5@gb.ru', 'geekshop')
-        self.user = model.objects.create_user('test@test.ru', 'test')
-        self.user_with__first_name = model.objects.create_user('test_name@test.ru',
-                                                               'test_name',
-                                                               first_name='Фирст Нейм')
+        # self.superuser = model.objects.create_superuser('gb5@gb.ru', 'geekshop')
+        # self.user = model.objects.create_user('test@test.ru', 'test')
+        # self.user_with__first_name = model.objects.create_user('test_name@test.ru',
+        #                                                        'test_name',
+        #                                                        first_name='Фирст Нейм')
 
     def test_user_login(self):
         # response = self.client.get('/')
