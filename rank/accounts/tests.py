@@ -10,6 +10,7 @@ from .models import Account
 class TestUserManagement(TestCase):
 
     def setUp(self):
+        setup_test_environment()
         call_command('flush', '--noinput')
         call_command('loaddata', 'test_db.json')
         self.client = Client()
