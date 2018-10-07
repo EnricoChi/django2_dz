@@ -13,10 +13,8 @@ class TestUserManagement(TestCase):
         call_command('loaddata', 'test_db.json')
         self.client = Client()
 
-        model = Account
-
         # self.superuser = model.objects.create_superuser('gb@gb.ru', 'geekshop')
-        self.user = model.objects.create_user('test@test.ru', 'test')
+        self.user = Account.objects.create_user('test@test.ru', 'test', is_active=True)
         # self.user_with__first_name = model.objects.create_user('test_name@test.ru',
         #                                                        'test_name',
         #                                                        first_name='Фирст Нейм')
@@ -35,7 +33,7 @@ class TestUserManagement(TestCase):
 
         # логинимся
         response = self.client.get(reverse('accounts:sign-in'))
-        print('1'*200)
+        print('1' * 200)
         print(response.context['user'])
         # self.assertFalse(response.context['user'].is_anonymous)
         self.assertEqual(response.context['user'], self.superuser)
