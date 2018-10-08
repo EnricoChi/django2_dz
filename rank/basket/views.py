@@ -1,3 +1,4 @@
+from django.db.models import F
 from django.http import JsonResponse, Http404
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -14,9 +15,10 @@ def basket_add(request):
         count = 1
 
         if added_item:
-            added_item[0].quantity += 1
-            added_item[0].save()
-            count = added_item[0].quantity
+            added_item.update(quantity=F('quantity') + 1)
+            # added_item[0].quantity += 1
+            # added_item[0].save()
+            count = added_item.values()
         else:
             item = Basket(user=request.user, company=company)
             item.quantity = 1
@@ -24,6 +26,6 @@ def basket_add(request):
 
         return JsonResponse({
             'success':
-                {'count': count}
+                {'count': count[0]['quantity']}
         })
     raise Http404

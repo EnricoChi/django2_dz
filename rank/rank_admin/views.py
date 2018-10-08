@@ -1,6 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, ListView
+from django.dispatch import receiver
+from django.db.models.signals import pre_save
+from django.db import connection
 
 from rank_item.models import Company, CompanyCategory
 from rank_item.forms import CompanyForm, CompanyCategoryForm
@@ -56,3 +59,16 @@ def company_category_del(request, pk=None):
     category = get_object_or_404(CompanyCategory, pk=pk)
     category.delete()
     return redirect('rank_admin:category-all')
+
+
+# def db_profile_by_type(prefix, type, queries):
+#     update_queries = list(filter(lambda x: type in x['sql'], queries))
+#     print(f'db_profile {type} for {prefix}:')
+#     [print(query['sql']) for query in update_queries]
+
+
+@receiver(pre_save, sender=CompanyCategory)
+def product_in_category_status(sender, instance, **kwargs):
+    if instance.pk:
+        instance.company_set.update(is_published=instance.is_published)
+        # db_profile_by_type(sender, 'UPDATE', connection.queries)
